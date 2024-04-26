@@ -107,26 +107,70 @@ android {
 }
 
 dependencies {
+    // Stream Video SDK
+    implementation(libs.stream.video.compose)
+    implementation(libs.stream.video.filter)
+    implementation(libs.stream.video.previewdata)
 
+    // Stream Chat SDK
+    implementation(libs.stream.chat.compose)
+    implementation(libs.stream.chat.offline)
+    implementation(libs.stream.chat.state)
+    implementation(libs.stream.chat.ui.utils)
+
+    implementation(libs.stream.push.firebase)
+    implementation(libs.stream.log.android)
+
+    implementation(libs.androidx.material)
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.lifecycle.runtime)
+
+    // Network
+    implementation(libs.okhttp)
+    implementation(libs.retrofit)
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.kotlinx.serialization.converter)
+
+    // Compose
     implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.compose.ui)
+    implementation(libs.androidx.compose.ui.tooling)
+    implementation(libs.androidx.compose.runtime)
+    implementation(libs.androidx.compose.navigation)
+    implementation(libs.androidx.compose.foundation)
+    implementation(libs.androidx.compose.material)
+    implementation(libs.androidx.compose.material.iconsExtended)
+    implementation(libs.androidx.hilt.navigation)
+    implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.accompanist.permission)
+    implementation(libs.landscapist.coil)
+
+    // QR code scanning
+    implementation(libs.androidx.camera.core)
+    implementation(libs.play.services.mlkit.barcode.scanning)
+    implementation(libs.androidx.camera.view)
+    implementation(libs.androidx.camera.lifecycle)
+    implementation(libs.androidx.camera.camera2)
 
     // Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
 
+    // Firebase
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.crashlytics)
+    implementation(libs.firebase.config)
+    implementation(libs.firebase.analytics)
 
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
-    debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
+    // Moshi
+    implementation(libs.moshi.kotlin)
+
+    // Video Filters
+    implementation(libs.google.mlkit.selfie.segmentation)
+    implementation(files("libs/renderscript-toolkit.aar"))
+
+    // Play
+    implementation(libs.play.auth)
 }

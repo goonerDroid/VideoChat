@@ -1,40 +1,100 @@
 [versions]
 androidGradlePlugin = "8.3.2"
+cameraCamera2 = "1.3.3"
 spotless = "6.21.0"
 kotlin = "1.9.23"
 ksp = "1.9.23-1.0.19"
+kotlinSerialization = "1.6.3"
+kotlinSerializationConverter = "1.0.0"
+kotlinxCoroutines = "1.8.0"
 kotlinDokka = "1.9.20"
-hilt = "2.51.1"
+jvmTarget = "11"
+androidxMaterial = "1.11.0"
+androidxCore = "1.13.0"
+androidxCamera = "1.3.3"
+androidxAnnotation = "1.7.1"
+androidxLifecycle = "2.7.0"
+androidxActivity = "1.9.0"
 androidxComposeCompiler = "1.5.11"
+androidxComposeBom = "2024.04.01"
+androidxHiltNavigation = "1.2.0"
+androidxComposeNavigation = "2.7.7"
+hilt = "2.51.1"
+landscapist = "2.3.2"
+accompanist = "0.32.0"
+okhttp = "4.12.0"
+retrofit = "2.11.0"
+moshi = "1.15.1"
+streamVideo = "0.5.7"
+streamChat = "6.0.13"
+streamLog = "1.1.4"
+streamPush = "1.1.7"
 googleService = "4.3.14"
-coreKtx = "1.10.1"
-junit = "4.13.2"
-junitVersion = "1.1.5"
-espressoCore = "3.5.1"
-lifecycleRuntimeKtx = "2.6.1"
-activityCompose = "1.7.0"
-composeBom = "2023.08.00"
-firebaseCrashlytics = "2.9.9"
+playAuth = "20.7.0"
 androidxMacroBenchmark = "1.2.4"
+androidxContraintLayout = "2.1.4"
+firebaseBom = "32.8.1"
+firebaseCrashlytics = "2.9.9"
+googleMlKitSelfieSegmentation = "16.0.0-beta5"
 
 [libraries]
-androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
-junit = { group = "junit", name = "junit", version.ref = "junit" }
-androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
-androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
-androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
-androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
-androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
-androidx-ui = { group = "androidx.compose.ui", name = "ui" }
-androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
-androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
-androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
-androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
-androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
-androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
+androidx-camera-camera2 = { module = "androidx.camera:camera-camera2", version.ref = "cameraCamera2" }
+androidx-material = { group = "com.google.android.material", name = "material", version.ref = "androidxMaterial" }
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
+androidx-lifecycle-runtime = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "androidxLifecycle" }
+androidx-lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidxLifecycle" }
+
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidxComposeBom" }
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidxActivity" }
+androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation" }
+androidx-compose-material-iconsExtended = { group = "androidx.compose.material", name = "material-icons-extended" }
+androidx-compose-material = { group = "androidx.compose.material", name = "material" }
+androidx-compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "androidxComposeNavigation" }
+androidx-hilt-navigation = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "androidxHiltNavigation" }
+androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime" }
+androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }
+androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+
+landscapist-coil = { group = "com.github.skydoves", name = "landscapist-coil", version.ref = "landscapist" }
+accompanist-permission = { group = "com.google.accompanist", name = "accompanist-permissions", version.ref = "accompanist" }
+
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
+moshi-kotlin = { group = "com.squareup.moshi", name = "moshi-kotlin", version.ref = "moshi" }
+
+stream-log-android = { group = "io.getstream", name = "stream-log-android", version.ref = "streamLog" }
+stream-push-firebase = { group = "io.getstream", name = "stream-android-push-firebase", version.ref = "streamPush" }
+
+stream-video-compose = { group = "io.getstream", name = "stream-video-android-ui-compose", version.ref = "streamVideo" }
+stream-video-filter = { group = "io.getstream", name = "stream-video-android-filters-video", version.ref = "streamVideo" }
+stream-video-previewdata = { group = "io.getstream", name = "stream-video-android-previewdata", version.ref = "streamVideo" }
+
+stream-chat-compose = { group = "io.getstream", name = "stream-chat-android-compose", version.ref = "streamChat" }
+stream-chat-offline = { group = "io.getstream", name = "stream-chat-android-offline", version.ref = "streamChat" }
+stream-chat-state = { group = "io.getstream", name = "stream-chat-android-state", version.ref = "streamChat" }
+stream-chat-ui-utils = { group = "io.getstream", name = "stream-chat-android-ui-utils", version.ref = "streamChat" }
+
+kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinSerialization" }
+kotlinx-serialization-converter = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "kotlinSerializationConverter" }
 
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
+
+firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
+firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics-ktx" }
+firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics-ktx" }
+firebase-config = { group = "com.google.firebase", name = "firebase-config" }
+
+play-auth = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "playAuth" }
+
+google-mlkit-selfie-segmentation = { group = "com.google.mlkit", name = "segmentation-selfie", version.ref = "googleMlKitSelfieSegmentation" }
+
+# Dependencies of the included build-logic
+androidx-camera-core = { group = "androidx.camera", name = "camera-core", version.ref = "androidxCamera" }
+play-services-mlkit-barcode-scanning = { group = "com.google.android.gms", name = "play-services-mlkit-barcode-scanning", version = "18.3.0" }
+androidx-camera-view = { group = "androidx.camera", name = "camera-view", version.ref = "androidxCamera" }
+androidx-camera-lifecycle = { group = "androidx.camera", name = "camera-lifecycle", version.ref = "androidxCamera" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
