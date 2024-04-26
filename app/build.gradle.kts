@@ -1,21 +1,31 @@
+@file:Suppress("UnstableApiUsage")
+import com.sublime.videochat.Configuration
+import java.util.*
+import java.io.FileInputStream
+
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.serialization) apply false
+    id(libs.plugins.android.application.get().pluginId)
+    id(libs.plugins.kotlin.android.get().pluginId)
+    id(libs.plugins.firebase.crashlytics.get().pluginId)
+    id(libs.plugins.kotlin.serialization.get().pluginId)
+    id(libs.plugins.hilt.get().pluginId)
+    id(libs.plugins.ksp.get().pluginId)
+    id(libs.plugins.spotless.get().pluginId)
+    id(libs.plugins.baseline.profile.get().pluginId)
+    id("com.google.gms.google-services")
 }
 
 android {
     namespace = "com.sublime.videochat"
-    compileSdk = 34
+    compileSdk = Configuration.compileSdk
 
     defaultConfig {
         applicationId = "com.sublime.videochat"
-        minSdk = 26
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        minSdk = Configuration.minSdk
+        targetSdk = Configuration.targetSdk
+        versionCode = Configuration.versionCode
+        versionName = Configuration.versionName
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -41,12 +51,58 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
+        kotlinCompilerExtensionVersion = libs.versions.androidxComposeCompiler.get()
     }
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+
+    buildTypes {
+        getByName("debug") {
+            versionNameSuffix = "-DEBUG"
+            applicationIdSuffix = ".debug"
+            isDebuggable = true
+            isMinifyEnabled = false
+            isShrinkResources = false
+            signingConfig = signingConfigs.getByName("debug")
         }
+        getByName("release") {
+            isMinifyEnabled = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+//            signingConfig = signingConfigs.getByName("release")//TODO Check while releasing app into wild
+        }
+        create("benchmark") {
+            isDebuggable = true
+            isMinifyEnabled = false
+            isShrinkResources = false
+            signingConfig = signingConfigs.getByName("debug")
+            matchingFallbacks += listOf("release")
+            proguardFiles("benchmark-rules.pro")
+        }
+    }
+
+    flavorDimensions += "environment"
+    productFlavors {
+        create("development") {
+            dimension = "environment"
+            applicationIdSuffix = ".dogfooding"
+        }
+        create("production") {
+            dimension = "environment"
+        }
+    }
+
+    buildFeatures {
+        resValues = true
+        buildConfig = true
+    }
+
+    packaging {
+        jniLibs.pickFirsts.add("lib/*/librenderscript-toolkit.so")
+    }
+
+    baselineProfile {
+        mergeIntoMain = true
     }
 }
 
@@ -60,6 +116,12 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+
+    // Hilt
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
+
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
