@@ -41,6 +41,43 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:343390885763:android:79fbc311716a4d733b48b6",
+        "android_client_info": {
+          "package_name": "com.sublime.videochat.dogfooding.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "343390885763-79r4jif92hbruphtdggi1a9db6k4qata.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sublime.videochat.dogfooding.debug",
+            "certificate_hash": "90888b00bc0a277ddda8ccd3493ee504a0a02307"
+          }
+        },
+        {
+          "client_id": "343390885763-erqrq1b3ljamttut1jn5skglefgjbjih.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0_X0Q4BwTDDDfWo5KXOxJPNO4aEgtfn0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "343390885763-erqrq1b3ljamttut1jn5skglefgjbjih.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"
