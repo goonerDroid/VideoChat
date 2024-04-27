@@ -10,7 +10,7 @@ import androidx.navigation.compose.rememberNavController
 
 @Composable
 fun AppNavHost(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
     startDestination: String = AppScreens.Login.route
 ) {
@@ -26,7 +26,8 @@ fun AppNavHost(
 }
 
 enum class AppScreens(val route: String) {
-    Login("login/{auto_log_in}"), ;
+    Login("login/{auto_log_in}"),
+    CallJoin("call_join");
 
     fun routeWithArg(argValue: Any): String = when (this) {
         Login -> this.route.replace("{auto_log_in}", argValue.toString())
