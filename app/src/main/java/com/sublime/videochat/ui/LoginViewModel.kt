@@ -6,8 +6,13 @@ import androidx.lifecycle.viewModelScope
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.sublime.videochat.data.GoogleAccountRepository
 import com.sublime.videochat.data.services.GetAuthDataResponse
+import com.sublime.videochat.data.services.StreamService
+import com.sublime.videochat.util.AppConfig
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.getstream.log.streamLog
+import io.getstream.video.android.core.StreamVideo
 import io.getstream.video.android.datastore.delegate.StreamUserDataStore
+import io.getstream.video.android.model.User
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -24,7 +29,7 @@ class LoginViewModel @Inject constructor(
     private val googleSignInClient: GoogleSignInClient,
     private val googleAccountRepository: GoogleAccountRepository
 ) : ViewModel() {
-    var autoLogin: Boolean = true
+    var autoLogIn: Boolean = true
     private val event: MutableSharedFlow<LoginEvent> = MutableSharedFlow()
 
     internal val uiState: SharedFlow<LoginUiState> = event.flatMapLatest { event ->
@@ -45,9 +50,41 @@ class LoginViewModel @Inject constructor(
         }
     }.shareIn(viewModelScope, SharingStarted.Lazily, 0)
 
-    private fun signInSuccess(userId: String): Flow<LoginUiState> {
-        TODO("Not yet implemented")
-    }
+    private fun signInSuccess(userId: String): Flow<LoginUiState> =
+        AppConfig.currentEnvironment.flatMapLatest {
+            if (it != null) {
+                if (StreamVideo.isInstalled) {
+                    flowOf(LoginUiState.AlreadyLoggedIn)
+                } else {
+                    try {
+                        val authData = StreamService.instance.getAuthData(
+                            userId = userId,
+                        )
+                        val loggedInGoogleUser =
+                            if (autoLogIn) null else googleAccountRepository.getCurrentUser()
+                        val user = User(
+                            id = authData.userId,
+                            // if autoLogIn is true it means we have a random user
+                            name = if (autoLogIn) userId else loggedInGoogleUser?.name ?: "",
+                            image = if (autoLogIn) "" else loggedInGoogleUser?.photoUrl ?: "",
+                            role = "admin",
+                            custom = mapOf("email" to authData.userId),
+                        )
+                        // Store the data in the demo app
+                        dataStore.updateUser(user)
+                        // Init the Video SDK with the data
+//                        StreamVideoInitHelper.loadSdk(dataStore)//TODO Plug Stream Video SDK
+                        flowOf(LoginUiState.SignInComplete(authData))
+                    } catch (exception: Throwable) {
+                        val message = "Sign in failed: ${exception.message ?: "Generic error"}"
+                        streamLog { "Failed to fetch token - cause: $exception" }
+                        flowOf(LoginUiState.SignInFailure(message))
+                    }
+                }
+            } else {
+                flowOf(LoginUiState.Loading)
+            }
+        }
 
 
 }
