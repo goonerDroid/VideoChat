@@ -4,22 +4,27 @@ import android.content.Intent
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.sublime.videochat.BuildConfig
 import com.sublime.videochat.data.GoogleAccountRepository
 import com.sublime.videochat.data.services.GetAuthDataResponse
 import com.sublime.videochat.data.services.StreamService
 import com.sublime.videochat.util.AppConfig
+import com.sublime.videochat.util.UserHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.getstream.log.streamLog
 import io.getstream.video.android.core.StreamVideo
 import io.getstream.video.android.datastore.delegate.StreamUserDataStore
 import io.getstream.video.android.model.User
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.shareIn
+import kotlinx.coroutines.launch
 import java.util.UUID
 import javax.inject.Inject
 
@@ -49,6 +54,33 @@ class LoginViewModel @Inject constructor(
             else -> flowOf(LoginUiState.Nothing)
         }
     }.shareIn(viewModelScope, SharingStarted.Lazily, 0)
+
+    fun handleUiEvent(event: LoginEvent) {
+        viewModelScope.launch { this@LoginViewModel.event.emit(event) }
+    }
+
+    @Suppress("KotlinConstantConditions")
+    fun signInIfValidUserExist() {
+        viewModelScope.launch {
+            val user = dataStore.user.firstOrNull()
+            if (user != null) {
+                handleUiEvent(LoginEvent.Loading)
+                if (BuildConfig.BUILD_TYPE != "benchmark") {
+                    delay(10)
+                    handleUiEvent(LoginEvent.SignInSuccess(userId = user.id))
+                }
+            } else {
+                if (autoLogIn) {
+                    handleUiEvent(LoginEvent.Loading)
+                    handleUiEvent(
+                        LoginEvent.SignInSuccess(
+                            UserHelper.generateRandomString(upperCaseOnly = true),
+                        ),
+                    )
+                }
+            }
+        }
+    }
 
     private fun signInSuccess(userId: String): Flow<LoginUiState> =
         AppConfig.currentEnvironment.flatMapLatest {
@@ -88,6 +120,8 @@ class LoginViewModel @Inject constructor(
 
 
 }
+
+
 
 sealed interface LoginUiState {
 
